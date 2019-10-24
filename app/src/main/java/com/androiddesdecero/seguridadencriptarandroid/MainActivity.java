@@ -1,5 +1,7 @@
 package com.androiddesdecero.seguridadencriptarandroid;
 
+import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
@@ -8,14 +10,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,7 +23,10 @@ public class MainActivity extends AppCompatActivity {
     private TextView tvTexto;
     private Button btEncriptar, btDesEncriptar, btApiEncriptada;
     private String textoSalida;
-
+    ///
+    TextView tv;
+    Button button;
+    Intent myfile;
 
     //String apiKeyEncriptada ="0SPrEK0JntQ2qCm9cPEabw==";
     //String passwordEncriptacion = "gdsawr";
@@ -62,6 +65,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 */
+        tv=(TextView)findViewById(R.id.Tpath);
+        button=(Button)findViewById(R.id.Bfile);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                myfile=new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                myfile.setType("*/*");
+                startActivityForResult(myfile,10);
+            }
+        });
         btEncriptar = findViewById(R.id.mainActivityBtEncriptar);
         btEncriptar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,6 +120,18 @@ public class MainActivity extends AppCompatActivity {
         String datosEncriptadosString = Base64.encodeToString(datosEncriptadosBytes, Base64.DEFAULT);
         return datosEncriptadosString;
         ////hola
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        //super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case 10:
+                if (resultCode==RESULT_OK){
+                    String path=data.getData().getPath();
+                    tv.setText(path);
+                }
+                break;
+        }
     }
 /*
     private SecretKeySpec generateKey(String password) throws Exception{
