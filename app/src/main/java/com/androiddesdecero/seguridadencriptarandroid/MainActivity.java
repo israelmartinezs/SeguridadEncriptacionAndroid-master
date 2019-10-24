@@ -106,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
         byte[] datosEncriptadosBytes = cipher.doFinal(datos.getBytes());
         String datosEncriptadosString = Base64.encodeToString(datosEncriptadosBytes, Base64.DEFAULT);
         return datosEncriptadosString;
+        ////hola
     }
 /*
     private SecretKeySpec generateKey(String password) throws Exception{
